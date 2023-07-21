@@ -1815,6 +1815,7 @@ static irqreturn_t e1000_intr_msi(int __always_unused irq, void *data)
  **/
 static irqreturn_t e1000_intr(int __always_unused irq, void *data)
 {
+	// printk("e1000_intr received irq %d\n", irq);
 	struct net_device *netdev = data;
 	struct e1000_adapter *adapter = netdev_priv(netdev);
 	struct e1000_hw *hw = &adapter->hw;
@@ -2178,6 +2179,8 @@ static int e1000_request_irq(struct e1000_adapter *adapter)
 
 	err = request_irq(adapter->pdev->irq, e1000_intr, IRQF_SHARED,
 			  netdev->name, netdev);
+	
+	printk("e1000e request_irq %d\n", adapter->pdev->irq);
 	if (err)
 		e_err("Unable to allocate interrupt, Error: %d\n", err);
 
@@ -5934,6 +5937,7 @@ static void e1000_tx_timeout(struct net_device *netdev, unsigned int __always_un
 {
 	struct e1000_adapter *adapter = netdev_priv(netdev);
 
+	printk("e1000_tx_timeout\n");
 	/* Do the reset outside of interrupt context */
 	adapter->tx_timeout_count++;
 	schedule_work(&adapter->reset_task);

@@ -6,6 +6,7 @@ config VFIO_PCI_CORE
 	tristate
 	select VFIO_VIRQFD
 	select IRQ_BYPASS_MANAGER
+	default y
 
 config VFIO_PCI_MMAP
 	def_bool y if !S390
@@ -18,6 +19,7 @@ config VFIO_PCI_INTX
 config VFIO_PCI
 	tristate "Generic VFIO support for any PCI device"
 	select VFIO_PCI_CORE
+	default y
 	help
 	  Support for the generic PCI VFIO bus driver which can connect any
 	  PCI device to the VFIO framework.

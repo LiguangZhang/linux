@@ -264,8 +264,10 @@ int iommu_device_register(struct iommu_device *iommu,
 	list_add_tail(&iommu->list, &iommu_device_list);
 	spin_unlock(&iommu_device_lock);
 
-	for (int i = 0; i < ARRAY_SIZE(iommu_buses) && !err; i++)
-		err = bus_iommu_probe(iommu_buses[i]);
+	// for (int i = 0; i < ARRAY_SIZE(iommu_buses) && !err; i++) {
+		iommu_buses[1]->iommu_ops = ops;
+		err = bus_iommu_probe(iommu_buses[1]);
+	// }
 	if (err)
 		iommu_device_unregister(iommu);
 	return err;
@@ -274,8 +276,8 @@ EXPORT_SYMBOL_GPL(iommu_device_register);
 
 void iommu_device_unregister(struct iommu_device *iommu)
 {
-	for (int i = 0; i < ARRAY_SIZE(iommu_buses); i++)
-		bus_for_each_dev(iommu_buses[i], NULL, iommu, remove_iommu_group);
+	// for (int i = 0; i < ARRAY_SIZE(iommu_buses); i++)
+		bus_for_each_dev(iommu_buses[1], NULL, iommu, remove_iommu_group);
 
 	spin_lock(&iommu_device_lock);
 	list_del(&iommu->list);
@@ -1980,12 +1982,10 @@ static struct iommu_domain *__iommu_domain_alloc(const struct iommu_ops *ops,
 	if (iommu_is_dma_domain(domain)) {
 		int rc;
 
-		rc = iommu_get_dma_cookie(domain);
-		if (rc) {
-			iommu_domain_free(domain);
-			return ERR_PTR(rc);
-		}
-	}
+	// if (iommu_is_dma_domain(domain) && iommu_get_dma_cookie(domain)) {
+	// 	iommu_domain_free(domain);
+	// 	domain = NULL;
+	// }
 	return domain;
 }
 

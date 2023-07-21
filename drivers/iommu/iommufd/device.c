@@ -10,7 +10,7 @@
 #include "io_pagetable.h"
 #include "iommufd_private.h"
 
-static bool allow_unsafe_interrupts;
+static bool allow_unsafe_interrupts = 1;
 module_param(allow_unsafe_interrupts, bool, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(
 	allow_unsafe_interrupts,

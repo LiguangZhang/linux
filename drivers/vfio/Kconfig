@@ -7,6 +7,7 @@ menuconfig VFIO
 	select VFIO_GROUP if SPAPR_TCE_IOMMU || IOMMUFD=n
 	select VFIO_DEVICE_CDEV if !VFIO_GROUP
 	select VFIO_CONTAINER if IOMMUFD=n
+	default y
 	help
 	  VFIO provides a framework for secure userspace device drivers.
 	  See Documentation/driver-api/vfio.rst for more details.
@@ -39,8 +40,7 @@ config VFIO_GROUP
 
 config VFIO_CONTAINER
 	bool "Support for the VFIO container /dev/vfio/vfio"
-	select VFIO_IOMMU_TYPE1 if MMU && (X86 || S390 || ARM || ARM64)
-	depends on VFIO_GROUP
+	select VFIO_IOMMU_TYPE1 if MMU && (X86 || S390 || ARM || ARM64 || RISCV)
 	default y
 	help
 	  The VFIO container is the classic interface to VFIO for establishing
@@ -52,7 +52,7 @@ config VFIO_CONTAINER
 if VFIO_CONTAINER
 config VFIO_IOMMU_TYPE1
 	tristate
-	default n
+	default y
 
 config VFIO_IOMMU_SPAPR_TCE
 	tristate
@@ -78,7 +78,7 @@ config VFIO_NOIOMMU
 config VFIO_VIRQFD
 	bool
 	select EVENTFD
-	default n
+	default y
 
 config VFIO_DEBUGFS
 	bool "Export VFIO internals in DebugFS"

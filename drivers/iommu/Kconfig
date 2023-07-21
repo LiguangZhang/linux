@@ -6,6 +6,7 @@ config IOMMU_IOVA
 # IOMMU_API always gets selected by whoever wants it.
 config IOMMU_API
 	bool
+	default y
 
 config IOMMUFD_DRIVER
 	bool
@@ -150,13 +151,13 @@ config OF_IOMMU
 
 # IOMMU-agnostic DMA-mapping layer
 config IOMMU_DMA
-	def_bool ARM64 || X86 || S390
+	def_bool ARM64 || IA64 || X86 || RISCV
 	select DMA_OPS
 	select IOMMU_API
 	select IOMMU_IOVA
 	select IRQ_MSI_IOMMU
 	select NEED_SG_DMA_LENGTH
-	select NEED_SG_DMA_FLAGS if SWIOTLB
+	default y
 
 # Shared Virtual Addressing
 config IOMMU_SVA

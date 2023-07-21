@@ -57,6 +57,7 @@ config HAVE_KVM_READONLY_MEM
 
 config HAVE_KVM_CPU_RELAX_INTERCEPT
        bool
+       default y
 
 config KVM_VFIO
        bool
